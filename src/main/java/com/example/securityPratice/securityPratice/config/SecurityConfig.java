@@ -28,8 +28,8 @@ public class SecurityConfig{
                                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")  // ADMIN MANAGER만 접근 가능
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")  // ADMIN만 접근 가능
                                 .anyRequest().permitAll()  // 누구나 접근 가능
-                ).formLogin(formLogin  ->   // 로그인 설정
-                        formLogin.loginPage("/login"));  // 권한 없을 경우, 로그인 페이지로
+                ).formLogin(formLogin  ->                  // 로그인 설정
+                        formLogin.loginPage("/login"));    // 권한 없을 경우, 로그인 페이지로
 
         return http.build();
     }
