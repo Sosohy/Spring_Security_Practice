@@ -9,12 +9,18 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity  // 스프링 시큐리티 필터가 스프링 필터체인에 등록
 public class SecurityConfig{
+
+    @Bean  // 리턴되는 오브젝트를 IoC로 등록
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -29,7 +35,7 @@ public class SecurityConfig{
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")  // ADMIN만 접근 가능
                                 .anyRequest().permitAll()  // 누구나 접근 가능
                 ).formLogin(formLogin  ->                  // 로그인 설정
-                        formLogin.loginPage("/login"));    // 권한 없을 경우, 로그인 페이지로
+                        formLogin.loginPage("/loginForm"));    // 권한 없을 경우, 로그인 페이지로
 
         return http.build();
     }
