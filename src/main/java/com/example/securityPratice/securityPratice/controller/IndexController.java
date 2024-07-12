@@ -3,6 +3,8 @@ package com.example.securityPratice.securityPratice.controller;
 import com.example.securityPratice.securityPratice.model.User;
 import com.example.securityPratice.securityPratice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,11 @@ public class IndexController {
     @GetMapping("/user")
     public @ResponseBody String user(){
         return "user";
+    }
+
+    @GetMapping("/manager")
+    public @ResponseBody String manager(){
+        return "manager";
     }
 
     @GetMapping("/admin")
@@ -59,4 +66,10 @@ public class IndexController {
         return "redirect:/loginForm";
     }
 
+//    @Secured("ROLE_ADMIN")
+//    @PreAuthorize("hasAnyRole(ROlE_ADMIN, ROLE_MANAGER)")  // 메소드 실행 전 인증(<-> post : 메서드가 실행되고 나서 응답을 보내기 전에 인증)
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
 }
