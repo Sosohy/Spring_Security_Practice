@@ -46,10 +46,9 @@ public class IndexController {
     @PostMapping("/join")
     public String join(User user){
 
-        System.out.println("user = " + user);
         user.setRole("ROLE_USER");
 
-        // 패스워드 암호화
+        // 패스워드 암호화해서 유저에 다시 세팅
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);

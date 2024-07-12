@@ -33,9 +33,12 @@ public class SecurityConfig{
                                 .requestMatchers("/user/**").authenticated()   // 인증된 사용자만 접근 가능
                                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")  // ADMIN MANAGER만 접근 가능
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")  // ADMIN만 접근 가능
-                                .anyRequest().permitAll()  // 누구나 접근 가능
-                ).formLogin(formLogin  ->                  // 로그인 설정
-                        formLogin.loginPage("/loginForm"));    // 권한 없을 경우, 로그인 페이지로
+                                .anyRequest().permitAll()        // 누구나 접근 가능
+                ).formLogin(formLogin  ->                        // 로그인 설정
+                        formLogin.loginPage("/loginForm")        // 권한 없을 경우, 로그인 페이지로
+                                 .loginProcessingUrl("/login")   // /login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
+                                .defaultSuccessUrl("/")          // 로그인 페이지로 접속했을 경우, default 페이지로 -> 아닌 경우 요청했던 페이지로 감
+                );
 
         return http.build();
     }
