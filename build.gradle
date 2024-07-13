@@ -31,10 +31,16 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// mariadb
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// oauth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 }
 
