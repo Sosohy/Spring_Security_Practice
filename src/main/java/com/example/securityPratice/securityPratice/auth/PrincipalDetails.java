@@ -9,20 +9,32 @@ package com.example.securityPratice.securityPratice.auth;
 // Security Session -> Authentication -> UserDetails(PrincipalDetails)
 
 import com.example.securityPratice.securityPratice.model.User;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // 컴포지션 -> 클래스의 구성요소로 쓰임
+    private Map<String, Object> attributes;
 
+    // 일반 로그인
     public PrincipalDetails(User user){
         this.user = user;
+    }
+
+    // OAuth 로그인
+    public PrincipalDetails(User user, Map<String, Object> attributes){
+        this.user = user;
+        this.attributes = attributes;
     }
 
     // 해당 유저의 권한을 리턴하는 곳
@@ -68,5 +80,15 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 // 시큐리티 설정에서 loginProcessingUrl("/login");
 // /login 요청이 오면 자동으로 UserDetailsService 타입으로 IoC 되어있는 loadUserByUserName 함수가 실행
-
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
 
@@ -19,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     // security session(내부 Authentication(내부 UserDetails))
+    // 함수 종료시 AuthenticationPrincipal 어노테이션이 만들어짐
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
          User userEntity = userRepository.findByUsername(username);
