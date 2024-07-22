@@ -1,5 +1,6 @@
 package com.example.jwt_practice.config;
 
+import com.example.jwt_practice.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -22,6 +24,10 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        // JWT 필터
+        http.addFilterBefore(new JwtFilter(), BasicAuthenticationFilter.class);
+
         http.csrf(AbstractHttpConfigurer::disable)
                 // 세션을 사용하지 않고, JWT를 사용하여 무상태(stateless) 서버로 설정
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
