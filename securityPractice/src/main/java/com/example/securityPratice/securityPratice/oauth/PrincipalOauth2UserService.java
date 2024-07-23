@@ -17,7 +17,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // 구글로부터 받은 userRequest 데이터에 대한 후처리 되는 함수
     // 함수 종료시 AuthenticationPrincipal 어노테이션이 만들어짐
