@@ -21,6 +21,7 @@ public class CorsConfig {
         config.addAllowedHeader("*");      // 모든 header에 응답 허용
         config.addAllowedMethod("*");      // 모든 post, get, put, delete, patch 요청 허용
 
+        // 특정 URL 패턴에 대해 위에서 정의한 CORS 설정을 등록
         source.registerCorsConfiguration("/api/**", config);
 
         return new CorsFilter(source);

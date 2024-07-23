@@ -12,7 +12,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("필터1 - jwt 인증");
+        System.out.println("jwt 인증");
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
@@ -26,6 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
             System.out.println("headerAuth = " + headerAuth);
 
             if(headerAuth.equals("cos")){
+                // Authorization 헤더의 값이 "cos"와 같은 경우에만 다음 필터로 요청을 전달
                 filterChain.doFilter(req, res);
             }else{
                 System.out.println("인증 안됨");
