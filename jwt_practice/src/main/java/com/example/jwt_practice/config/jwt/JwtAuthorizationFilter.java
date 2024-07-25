@@ -29,7 +29,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨
+    // 인증이나 권한이 필요한 주소 요청이 있을 때 해당 필터를 타게 됨 -> 인증이나 권한이 필요한 요청이 들어올 때마다 실행
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("인증이나 권한이 필요한 주소 요청이 됨");
@@ -51,7 +51,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("username = " + username);
 
         // 서명이 정상적으로 됨
-        if(username != null){
+        if(username != null){  // 사용자 이름이 존재하면, JWT 토큰이 유효하다고 간주
             User userEntity = new User();
             userEntity.setUsername(username);
             userEntity.setRoles(UserRole.ROLE_ADMIN.toString());
