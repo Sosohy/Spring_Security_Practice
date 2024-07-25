@@ -1,6 +1,7 @@
 package com.example.jwt_practice.config;
 
 import com.example.jwt_practice.config.jwt.JwtAuthenticationFilter;
+import com.example.jwt_practice.config.jwt.JwtAuthorizationFilter;
 import com.example.jwt_practice.config.jwt.JwtUtil;
 import com.example.jwt_practice.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,10 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
-        // JWT 필터
-        http.addFilterBefore(new JwtFilter(), JwtAuthenticationFilter.class);
+//        http.addFilterBefore(new JwtFilter(), JwtAuthenticationFilter.class);
 
         http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil));
 
         http.csrf(AbstractHttpConfigurer::disable)
                 // 세션을 사용하지 않고, JWT를 사용하여 무상태(stateless) 서버로 설정

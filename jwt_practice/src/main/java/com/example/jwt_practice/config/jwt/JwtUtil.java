@@ -31,4 +31,7 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
+    public String getUsername(String jwtToken) {
+        return JWT.require(Algorithm.HMAC256(secretKey)).build().verify(jwtToken).getClaim("username").asString();
+    }
 }

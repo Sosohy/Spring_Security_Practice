@@ -25,7 +25,7 @@ public class RestApiController {
         return "<h1>token</h1>";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public String join(@RequestBody User user){
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -33,5 +33,20 @@ public class RestApiController {
         userRepository.save(user);
 
         return "회원가입 완료";
+    }
+
+    @GetMapping("/api/v1/user")
+    public String user(){
+        return "user";
+    }
+
+    @GetMapping("/api/v1/manager")
+    public String manager(){
+        return "manager";
+    }
+
+    @GetMapping("/api/v1/admin")
+    public String admin(){
+        return "admin";
     }
 }
