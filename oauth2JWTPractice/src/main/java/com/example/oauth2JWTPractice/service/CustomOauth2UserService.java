@@ -1,6 +1,8 @@
 package com.example.oauth2JWTPractice.service;
 
 import com.example.oauth2JWTPractice.dto.*;
+import com.example.oauth2JWTPractice.entity.User;
+import com.example.oauth2JWTPractice.repository.UserRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -9,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomOauth2UserService extends DefaultOAuth2UserService {
+
+    private final UserRepository userRepository;
+
+    public CustomOauth2UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -31,11 +39,25 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         }
 
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        User userEntity = userRepository.findByUsername(username);
+
+        // 회원 가입이 안되어 있는 경우, 자동 회원가입
+        if(userEntity == null){
+            userEntity = User.builder()
+                    .username(username)
+                    .email(oAuth2Response.getEmail())
+                    .name(oAuth2Response.getName())
+                    .role("ROLE_USER")
+                    .build();
+
+            userRepository.save(userEntity);
+        }
 
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(username);
-        userDTO.setName(oAuth2User.getName());
-        userDTO.setRole("ROLE_USER");
+        userDTO.setName(userEntity.getName());
+        userDTO.setEmail(userEntity.getEmail());
+        userDTO.setRole(userEntity.getRole());
 
         return new CustomOAuth2User(userDTO);
     }
