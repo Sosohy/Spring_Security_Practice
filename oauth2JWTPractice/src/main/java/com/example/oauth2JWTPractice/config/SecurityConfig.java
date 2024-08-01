@@ -1,5 +1,7 @@
 package com.example.oauth2JWTPractice.config;
 
+import com.example.oauth2JWTPractice.jwt.JWTUtil;
+import com.example.oauth2JWTPractice.oauth2.CustomSuccessHandler;
 import com.example.oauth2JWTPractice.service.CustomOauth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOauth2UserService oauth2UserService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfig(CustomOauth2UserService oauth2UserService) {
+    public SecurityConfig(CustomOauth2UserService oauth2UserService, CustomSuccessHandler customSuccessHandler, JWTUtil jwtUtil) {
         this.oauth2UserService = oauth2UserService;
+        this.customSuccessHandler = customSuccessHandler;
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
@@ -29,7 +35,8 @@ public class SecurityConfig {
 
         http.oauth2Login((oauth2) -> oauth2
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
-                        .userService(oauth2UserService))));
+                        .userService(oauth2UserService)))
+                .successHandler(customSuccessHandler));
 
         //경로별 인가 작업
         http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
