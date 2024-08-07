@@ -1,5 +1,6 @@
 package com.example.oauth2JWTPractice.config;
 
+import com.example.oauth2JWTPractice.jwt.JWTFilter;
 import com.example.oauth2JWTPractice.jwt.JWTUtil;
 import com.example.oauth2JWTPractice.oauth2.CustomSuccessHandler;
 import com.example.oauth2JWTPractice.service.CustomOauth2UserService;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +48,9 @@ public class SecurityConfig {
         //세션 설정 : STATELESS
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        // jwt 필터 추가
+        http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
