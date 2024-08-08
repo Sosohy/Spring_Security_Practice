@@ -26,10 +26,12 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = null;
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies){
-            System.out.println("cookie.getName() = " + cookie.getName());
-            if(cookie.getName().equals("Authorization")){
-                token = cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                System.out.println("cookie.getName() = " + cookie.getName());
+                if (cookie.getName().equals("Authorization")) {
+                    token = cookie.getValue();
+                }
             }
         }
 
