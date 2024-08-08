@@ -43,6 +43,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         response.addCookie(createCookie("Authorization", token));
         response.addHeader("Authorization", token);
+        response.addHeader("UserRole", role);
+
         response.sendRedirect("http://localhost:8080");
 
         super.onAuthenticationSuccess(request, response, authentication);
